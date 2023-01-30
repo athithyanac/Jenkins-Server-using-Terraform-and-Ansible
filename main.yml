@@ -1,0 +1,43 @@
+---
+- name: "Install Jenkins, Java and Python"
+  become: true
+  hosts: localhost
+  vars:
+    - packages:
+        - jenkins
+        - python3
+        
+  tasks:
+
+    - name: "Adding Jenkins repository key"
+      rpm_key:
+        key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+        state: present
+
+    - name: "Adding Jenkins repository"
+      yum_repository:
+        name: jenkins
+        description: jenkins stable
+        baseurl: https://pkg.jenkins.io/redhat-stable
+        state: present
+
+    - name: "Updating"
+      yum:
+        name: yum
+        state: latest
+
+    - name: "Installing Jenkins"
+      yum:
+        name: "{{packages}}"
+        state: present
+
+    - name: "Install Java"
+      shell: amazon-linux-extras install java-openjdk11 -y
+
+    - name: "Start Jenkins"
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+
+
