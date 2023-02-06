@@ -86,7 +86,7 @@ resource "aws_instance" "instance" {
     ]
   }
 ```
-`connection is to connect to remote server`
+`connection for connecting to remote server`
 ```terraform
   connection {
     type        = "ssh"
